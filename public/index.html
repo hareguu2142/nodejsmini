@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Express Project</title>
-    <script src="/js/main.js"></script>
+    <title>탈출</title>
+    <script src="/js/script/index.js" defer></script>
+    <style>
+        .hidden-code {
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Minimal Express Project</h1>
-    <p>This is a static HTML file served from the public folder.</p>
-    <p id="greeting"></p>
+    <h1>관찰은 보이지 않는 것을 보는 것.(CODE:start) <span class="hidden-code">HIDDEN CODE:white</span></h1>
+    <p></p>
+    <input type="text" id="codeInput" placeholder="Enter code">
+    <button onclick="checkCode()">Submit</button>
 </body>
 </html>
