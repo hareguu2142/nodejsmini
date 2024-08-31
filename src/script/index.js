@@ -5,7 +5,7 @@ async function checkCode() {
         const response = await fetch('/js/codetomap.json');
         const data = await response.json();
         
-        const matchingCode = data.codes.find((item) = item.code === codeInput);
+        const matchingCode = data.codes.find((item) => item.code === codeInput);
         
         if (matchingCode) {
             // pages 폴더 내의 HTML 파일로 이동
