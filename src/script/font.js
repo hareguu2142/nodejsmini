@@ -1,0 +1,67 @@
+const colorBox = document.getElementById('color-box');
+const redSlider = document.getElementById('red');
+const greenSlider = document.getElementById('green');
+const blueSlider = document.getElementById('blue');
+
+
+function updateColor() {
+    const r = redSlider.value.toString(16).padStart(2, '0');
+    const g = greenSlider.value.toString(16).padStart(2, '0');
+    const b = blueSlider.value.toString(16).padStart(2, '0');
+    const color = `#${r}${g}${b}`;
+    colorBox.style.backgroundColor = color;
+
+    if (color === '#006400') {
+        colorBox.textContent = 'CODE:darkgreen';
+        showInputField();
+        colorBox.style.color = 'black'; // color-box 글씨 검정색으로 변경
+    } else {
+        colorBox.textContent = 'what color?';
+        hideInputField();
+        colorBox.style.color = '#006400'; // color-box 글씨 초록색으로 변경
+    }
+}
+
+function showInputField() {
+    if (!document.getElementById('code-input')) {
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.id = 'code-input';
+        inputField.placeholder = 'Enter code here';
+        inputField.style.position = 'fixed';
+        inputField.style.bottom = '20px';
+        inputField.style.left = '50%';
+        inputField.style.transform = 'translateX(-50%)';
+        inputField.style.padding = '10px';
+        inputField.style.width = '200px';
+
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Submit';
+        submitButton.style.position = 'fixed';
+        submitButton.style.bottom = '20px';
+        submitButton.style.left = '50%';
+        submitButton.style.transform = 'translateX(110px)';
+        submitButton.style.padding = '10px';
+
+        document.body.appendChild(inputField);
+        document.body.appendChild(submitButton);
+    } else {
+        document.getElementById('code-input').style.display = 'block';
+        document.querySelector('button').style.display = 'inline-block';
+    }
+}
+
+function hideInputField() {
+    const inputField = document.getElementById('code-input');
+    const submitButton = document.querySelector('button');
+    if (inputField) {
+        inputField.style.display = 'none';
+        submitButton.style.display = 'none';
+    }
+}
+
+redSlider.addEventListener('input', updateColor);
+greenSlider.addEventListener('input', updateColor);
+blueSlider.addEventListener('input', updateColor);
+
+updateColor();
