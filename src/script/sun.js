@@ -33,14 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isDark) {
             // 화면을 어둡게 만들기
             body.style.backgroundColor = 'black';
-            body.style.transition = `background-color 5s`;
+            body.style.transition = `background-color 10s`;
             codeText.style.display = 'block';
             inputField.style.display = 'block';
             submitButton.style.display = 'block';
             isDark = true;
         } else {
             // 화면을 밝게 만들기
-            body.style.backgroundColor = 'white';
+            body.style.backgroundColor = '#ffe400';
             body.style.transition = `background-color 1s`;
             codeText.style.display = 'block';
             inputField.style.display = 'none';
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     submitButton.addEventListener('click', function() {
         const enteredCode = inputField.value.trim();
-        if (enteredCode === 'START') {
+        if (enteredCode === 'start') {
             alert('Correct code!');
             // 여기에 코드가 맞을 때 실행할 추가 로직을 넣을 수 있습니다.
         } else {
