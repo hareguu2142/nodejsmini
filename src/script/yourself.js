@@ -1,11 +1,5 @@
 import { findDocumentByCamo } from '/js/script/gb.js';
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('submitButton').addEventListener('click', checkText);
-  });
-
-
 export async function checkText() {
     const inputText = document.getElementById('inputText').value;
     const keywordvalue = await findDocumentByCamo('philosophy', 'hint1');
@@ -51,4 +45,3 @@ export async function checkText() {
     }
 }
 
-window.checkText = checkText;
