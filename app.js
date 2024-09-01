@@ -14,6 +14,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 // src 폴더의 JavaScript 파일을 /js 경로로 제공
 app.use('/js', express.static(path.join(__dirname, 'src')));
 
+// src 폴더의 특정 JavaScript 파일만 제공하는 라우트
+app.get('/js/:filename', (req, res) => {
+  const filename = req.params.filename;
+  // 허용된 파일 목록 (현재는 없음)
+  const allowedFiles = []; 
+
+  if (allowedFiles.includes(filename)) {
+    res.sendFile(path.join(__dirname, 'src', filename));
+  } else {
+    res.status(403).send('Access Denied');
+  }
+});
 
 
 // 서버 시작
