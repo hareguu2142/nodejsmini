@@ -19,29 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // src 폴더의 JavaScript 파일을 /js 경로로 제공
 app.use('/js', express.static(path.join(__dirname, 'src')));
 
-app.post('/check-code', async (req, res) => {
-  try {
-    await client.connect();
-    const database = client.db("code_to_map");
-    const collection = database.collection("code_to_map");
-    
-    const { code } = req.body;
-    const result = await collection.findOne({ code: code });
-    
-    if (result) {
-      res.json({ success: true, page: result.page });
-    } else {
-      res.json({ success: false });
-    }
-  } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ success: false, error: 'Server error' });
-  } finally {
-    await client.close();
-  }
-});
-
-
 app.get('/find', async (req, res) => {
   const { camo, field } = req.query;
 
@@ -80,7 +57,42 @@ app.get('/find', async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+
+
+app.get('/findcode', async (req, res) => {
+  const { code, field } = req.query;
+
+  if (!code) {
+    return res.status(400).json({ error: "code parameter is required" });
+  }
+
+  try {
+    await client.connect();
+    const database = client.db("code_to_map");
+    const collection = database.collection("code_to_map");
+    const query = { code: code };
+    const document = await collection.findOne(query);
+
+    if (document) {
+      const id = document._id;
+      let selectedField = field;
+
+      if (selectedField in document) {
+        const fieldValue = document[selectedField];
+        return res.json(fieldValue);
+      } else {
+        return res.status(404).json({ error: `Field '${selectedField}' not found in the document` });
+      }
+    } else {
+      return res.status(404).json({ error: "No document found with the given code value" });
+    }
+  } catch (error) {
+    console.error("Error occurred while querying the database:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
 // 서버 시작
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+

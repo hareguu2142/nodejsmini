@@ -5,11 +5,13 @@ async function checkCode() {
     const codeInput = document.getElementById('codeInput').value;
     
     try {
-        const data = await getMapFromCode(codeInput);
+        const data = await findDocumentBycode(codeInput, 'page');
         
-        if (data.success) {
+        if (data) {
+            // 큰따옴표 제거
+            const cleanData = data.replace(/"/g, '');
             // pages 폴더 내의 HTML 파일로 이동
-            window.location.href = `/pages/${data.page}.html`;
+            window.location.href = `/pages/${cleanData}.html`;
         } else {
             alert('Invalid code. Please try again.');
         }
@@ -42,6 +44,37 @@ async function findDocumentByCamo(camo, field = null) {
         return await response.text(); 
     } catch (error) {
         console.error('Error fetching document by camo:', error);
+        throw error;
+    }
+}
+
+
+
+
+
+
+
+async function findDocumentBycode(code, field = null) { 
+    try {
+        let url = `/findcode?code=${encodeURIComponent(code)}`;
+        if (field) {
+            url += `&field=${encodeURIComponent(field)}`;
+        }
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.text(); 
+    } catch (error) {
+        console.error('Error fetching document by code:', error);
         throw error;
     }
 }
