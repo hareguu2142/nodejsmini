@@ -3,8 +3,32 @@ const redSlider = document.getElementById('red');
 const greenSlider = document.getElementById('green');
 const blueSlider = document.getElementById('blue');
 
+async function getCodeFromCamo(camo) {
+    try {
+        const response = await fetch('/get-code-from-camo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ camo: camo }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            return data.code;
+        } else {
+            throw new Error('No code found for given camo');
+        }
+    } catch (error) {
+        console.error('Error fetching code from camo:', error);
+        throw error;
+    }
+}
 
-function updateColor() {
+let solve_code = null;
+
+async function updateColor() {
     const r = redSlider.value.toString(16).padStart(2, '0');
     const g = greenSlider.value.toString(16).padStart(2, '0');
     const b = blueSlider.value.toString(16).padStart(2, '0');
@@ -12,15 +36,20 @@ function updateColor() {
     colorBox.style.backgroundColor = color;
 
     if (color === '#006400') {
-        colorBox.textContent = 'CODE:darkgreen';
+        if (solve_code === null) {
+            solve_code = await getCodeFromCamo('begin');
+        }
+        colorBox.textContent = 'CODE:' + solve_code;
         showInputField();
-        colorBox.style.color = 'black'; // color-box 글씨 검정색으로 변경
+        colorBox.style.color = 'black';
     } else {
         colorBox.textContent = 'what color?';
         hideInputField();
-        colorBox.style.color = '#006400'; // color-box 글씨 초록색으로 변경
+        colorBox.style.color = '#006400';
     }
 }
+
+
 
 function showInputField() {
     if (!document.getElementById('code-input')) {
@@ -60,8 +89,8 @@ function hideInputField() {
     }
 }
 
-redSlider.addEventListener('input', updateColor);
-greenSlider.addEventListener('input', updateColor);
-blueSlider.addEventListener('input', updateColor);
+redSlider.addEventListener('input', () => updateColor());
+greenSlider.addEventListener('input', () => updateColor());
+blueSlider.addEventListener('input', () => updateColor());
 
 updateColor();
