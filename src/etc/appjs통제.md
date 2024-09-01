@@ -15,10 +15,10 @@ app.get('/', (req, res) = {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // src 폴더의 특정 JavaScript 파일만 제공하는 라우트
-app.get('/js/:filename', (req, res) = {
+app.get('/js/:filename', (req, res) => {
   const filename = req.params.filename;
-  // 허용된 파일 목록
-  const allowedFiles = ['app.js', 'utils.js']; // 예시: 허용할 파일들을 여기에 나열
+  // 허용된 파일 목록 (현재는 없음)
+  const allowedFiles = []; 
 
   if (allowedFiles.includes(filename)) {
     res.sendFile(path.join(__dirname, 'src', filename));
