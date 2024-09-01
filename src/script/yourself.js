@@ -1,57 +1,15 @@
-async function findDocumentByCamo(camo, field = null) {
-    try {
-        let url = `/find?camo=${encodeURIComponent(camo)}`;
-        if (field) {
-            url += `&field=${encodeURIComponent(field)}`;
-        }
+import { findDocumentByCamo } from '/js/script/gb.js';
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('submitButton').addEventListener('click', checkText);
+  });
 
-        return await response.text();
-    } catch (error) {
-        console.error('Error fetching document by camo:', error);
-        throw error;
-    }
-}
 
-async function findDocumentByCamo(camo, field = null) { 
-    try {
-        let url = `/find?camo=${encodeURIComponent(camo)}`;
-        if (field) {
-            url += `&field=${encodeURIComponent(field)}`;
-        }
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return await response.text(); 
-    } catch (error) {
-        console.error('Error fetching document by camo:', error);
-        throw error;
-    }
-}
-
-async function checkText() {
+export async function checkText() {
     const inputText = document.getElementById('inputText').value;
     const keywordvalue = await findDocumentByCamo('philosophy', 'hint1');
-    keyword = [...keywordvalue];
+    let keyword = [...keywordvalue];
 
     let result = '';
     let allKeywordsFound = true; // Add a flag to track if all keywords are found
@@ -92,3 +50,5 @@ async function checkText() {
         document.getElementById('result').innerHTML += '<br>!';
     }
 }
+
+window.checkText = checkText;

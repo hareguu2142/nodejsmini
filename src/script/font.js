@@ -2,31 +2,7 @@ const colorBox = document.getElementById('color-box');
 const redSlider = document.getElementById('red');
 const greenSlider = document.getElementById('green');
 const blueSlider = document.getElementById('blue');
-
-async function findDocumentByCamo(camo, field = null) {
-    try {
-        let url = `/find?camo=${encodeURIComponent(camo)}`;
-        if (field) {
-            url += `&field=${encodeURIComponent(field)}`;
-        }
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        return await response.text();
-    } catch (error) {
-        console.error('Error fetching document by camo:', error);
-        throw error;
-    }
-}
+import { findDocumentByCamo } from '/js/script/gb.js';
 
 let solve_code = null;
 

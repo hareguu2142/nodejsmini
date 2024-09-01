@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Metacognition</title>
     <style>
         body {
@@ -55,10 +56,14 @@
 </head>
 <body>
     <h1>Metacognition</h1>
+    <script type="module">
+    import { checkText } from "/js/script/yourself.js";
+    window.checkText = checkText;
+    </script>
     <input type="text" id="inputText" placeholder="나는 모든 것을 알지는 못한다.">
-    <button onclick="checkText()">제출</button>
+    <button id="submitButton">제출</button>
     <p id="result"></p>
 
-    <script src="/js/script/yourself.js"></script>
+
 </body>
 </html>
