@@ -19,56 +19,29 @@ async function checkCode() {
     }
 }
 
-// 코드로부터 맵 정보 가져오기
-async function getMapFromCode(code) {
-    try {
-        const response = await fetch('/check-code', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ code: code }),
-        });
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching map from code:', error);
-        throw error;
-    }
-}
 
-// 모든 코드 가져오기
-async function getAllCodes() {
+// camo -> field value 가져오기 값 불러오는 예시 코드 solve_code = await findDocumentByCamo('begin', 'code');
+async function findDocumentByCamo(camo, field = null) { 
     try {
-        const response = await fetch('/get-all-codes', {
+        let url = `/find?camo=${encodeURIComponent(camo)}`;
+        if (field) {
+            url += `&field=${encodeURIComponent(field)}`;
+        }
+
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        
-        return await response.json();
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.text(); 
     } catch (error) {
-        console.error('Error fetching all codes:', error);
+        console.error('Error fetching document by camo:', error);
         throw error;
     }
 }
-
-// 모든 맵 가져오기
-async function getAllMaps() {
-    try {
-        const response = await fetch('/get-all-maps', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching all maps:', error);
-        throw error;
-    }
-}
-
-// 다른 js 파일에서 사용할 수 있도록 함수들을 export

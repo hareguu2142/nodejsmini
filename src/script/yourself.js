@@ -1,6 +1,35 @@
-function checkText() {
+async function findDocumentByCamo(camo, field = null) {
+    try {
+        let url = `/find?camo=${encodeURIComponent(camo)}`;
+        if (field) {
+            url += `&field=${encodeURIComponent(field)}`;
+        }
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.text();
+    } catch (error) {
+        console.error('Error fetching document by camo:', error);
+        throw error;
+    }
+}
+
+
+
+async function checkText() {
     const inputText = document.getElementById('inputText').value;
-    const keyword = ['너', '자', '신', '을', '알', '라'];
+    const keywordvalue = await findDocumentByCamo('philosophy', 'hint1');
+    keyword = [...keywordvalue];
+
     let result = '';
     let allKeywordsFound = true; // Add a flag to track if all keywords are found
 

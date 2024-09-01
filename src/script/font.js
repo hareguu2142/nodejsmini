@@ -3,25 +3,27 @@ const redSlider = document.getElementById('red');
 const greenSlider = document.getElementById('green');
 const blueSlider = document.getElementById('blue');
 
-async function getCodeFromCamo(camo) {
+async function findDocumentByCamo(camo, field = null) {
     try {
-        const response = await fetch('/get-code-from-camo', {
-            method: 'POST',
+        let url = `/find?camo=${encodeURIComponent(camo)}`;
+        if (field) {
+            url += `&field=${encodeURIComponent(field)}`;
+        }
+
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ camo: camo }),
         });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            return data.code;
-        } else {
-            throw new Error('No code found for given camo');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        return await response.text();
     } catch (error) {
-        console.error('Error fetching code from camo:', error);
+        console.error('Error fetching document by camo:', error);
         throw error;
     }
 }
@@ -37,7 +39,7 @@ async function updateColor() {
 
     if (color === '#006400') {
         if (solve_code === null) {
-            solve_code = await getCodeFromCamo('begin');
+            solve_code = await findDocumentByCamo('begin', 'code');
         }
         colorBox.textContent = 'CODE:' + solve_code;
         showInputField();

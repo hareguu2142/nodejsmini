@@ -50,7 +50,9 @@ app.get('/find', async (req, res) => {
   }
 
   try {
-    const collection = db.collection("code_to_map");
+    await client.connect();
+    const database = client.db("code_to_map");
+    const collection = database.collection("code_to_map");
     const query = { camo: camo };
     const document = await collection.findOne(query);
 
@@ -66,7 +68,7 @@ app.get('/find', async (req, res) => {
       // 선택된 필드가 문서에 존재하는지 확인
       if (selectedField in document) {
         const fieldValue = document[selectedField];
-        return res.json({ id, [selectedField]: fieldValue });
+        return res.json(fieldValue);
       } else {
         return res.status(404).json({ error: `Field '${selectedField}' not found in the document` });
       }
@@ -76,29 +78,6 @@ app.get('/find', async (req, res) => {
   } catch (error) {
     console.error("Error occurred while querying the database:", error);
     return res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// server.js (Express.js 사용 예시)
-app.post('/get-code-from-camo', async (req, res) => {
-  try {
-    await client.connect();
-    const database = client.db("code_to_map");
-    const collection = database.collection("code_to_map");
-    
-    const { camo } = req.body;
-    const result = await collection.findOne({ camo: camo });
-    
-    if (result) {
-      res.json({ success: true, code: result.code });
-    } else {
-      res.json({ success: false, message: 'No code found for given camo' });
-    }
-  } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ success: false, error: 'Server error' });
-  } finally {
-    await client.close();
   }
 });
 // 서버 시작
