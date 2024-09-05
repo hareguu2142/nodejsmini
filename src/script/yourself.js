@@ -1,10 +1,16 @@
 import { findDocumentByCamo } from '/js/script/gb.js';
 
+// 모든 문자가 포함되어 있는지 확인
+function containsAllCharacters(text, charArray) {
+    return charArray.every(char => text.includes(char));
+  }
+  
 export async function checkText() {
     const inputText = document.getElementById('inputText').value;
     const keywordvalue = await findDocumentByCamo('philosophy', 'hint1');
-    let keyword = [...keywordvalue];
-
+    let keyword = [...keywordvalue].slice(1, 7);
+    console.log(keyword);
+    console.log(inputText);
     let result = '';
     let allKeywordsFound = true; // Add a flag to track if all keywords are found
 
@@ -18,8 +24,14 @@ export async function checkText() {
         }
     }
 
+    // 모든 문자가 포함되어 있는지 확인
+    for (let char of keyword) { 
+        if (!containsAllCharacters(inputText, keyword)) {
+            allKeywordsFound = false;
+        }
+    }
     // Check if all keywords were found
-    if (!document.getElementById('newInput')) { // Check if the new input box already exists
+    if (allKeywordsFound && !document.getElementById('newInput')) { // Check if the new input box already exists
         // Create a new input box
         const newInput = document.createElement('input');
         newInput.type = 'text';
