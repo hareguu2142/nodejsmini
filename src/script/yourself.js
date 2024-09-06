@@ -57,3 +57,11 @@ export async function checkText() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const submitButton = document.getElementById('submitButton');
+    if (submitButton) {
+        submitButton.addEventListener('click', checkText);
+    }
+});
+
+export default checkText;
