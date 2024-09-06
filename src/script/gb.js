@@ -1,27 +1,27 @@
+// 범용적으로 사용해야하는 경우에 활용하는 함수입니다.
 // 코드 확인 및 페이지 이동 함수
-export async function checkCode() {
-    const codeInput = document.getElementById('codeInput').value;
-    
+async function checkCode() {
+    const codeInput = document.getElementById("codeInput").value;
+
     try {
-        const data = await findDocumentBycode(codeInput, 'page');
-        
+        const data = await findDocumentBycode(codeInput, "page");
+
         if (data) {
             // 큰따옴표 제거
-            const cleanData = data.replace(/"/g, '');
+            const cleanData = data.replace(/"/g, "");
             // pages 폴더 내의 HTML 파일로 이동
             window.location.href = `/pages/${cleanData}.html`;
         } else {
-            alert('Invalid code. Please try again.');
+            alert("Invalid code. Please try again.");
         }
     } catch (error) {
-        console.error('Error checking code:', error);
-        alert('An error occurred. Please try again.');
+        console.error("Error checking code:", error);
+        alert("An error occurred. Please try again.");
     }
 }
 
-
 // camo -> field value 가져오기 값 불러오는 예시 코드 solve_code = await findDocumentByCamo('begin', 'code');
-export async function findDocumentByCamo(camo, field = null) { 
+async function findDocumentByCamo(camo, field = null) {
     try {
         let url = `/find?camo=${encodeURIComponent(camo)}`;
         if (field) {
@@ -29,9 +29,9 @@ export async function findDocumentByCamo(camo, field = null) {
         }
 
         const response = await fetch(url, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         });
 
@@ -39,20 +39,14 @@ export async function findDocumentByCamo(camo, field = null) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.text(); 
+        return await response.text();
     } catch (error) {
-        console.error('Error fetching document by camo:', error);
+        console.error("Error fetching document by camo:", error);
         throw error;
     }
 }
 
-
-
-
-
-
-
-export async function findDocumentBycode(code, field = null) { 
+async function findDocumentBycode(code, field = null) {
     try {
         let url = `/findcode?code=${encodeURIComponent(code)}`;
         if (field) {
@@ -60,9 +54,9 @@ export async function findDocumentBycode(code, field = null) {
         }
 
         const response = await fetch(url, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         });
 
@@ -70,9 +64,9 @@ export async function findDocumentBycode(code, field = null) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.text(); 
+        return await response.text();
     } catch (error) {
-        console.error('Error fetching document by code:', error);
+        console.error("Error fetching document by code:", error);
         throw error;
     }
 }
