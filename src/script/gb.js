@@ -1,4 +1,5 @@
 // 범용적으로 사용해야하는 경우에 활용하는 함수입니다.
+
 // 코드 확인 및 페이지 이동 함수
 async function checkCode() {
     const codeInput = document.getElementById("codeInput").value;
@@ -20,7 +21,7 @@ async function checkCode() {
     }
 }
 
-// camo -> field value 가져오기 값 불러오는 예시 코드 solve_code = await findDocumentByCamo('begin', 'code');
+// DB를 이용해서, camo value으로부터 특정 field의 value를 불러오는 코드입니다. 예시: solve_code = await findDocumentByCamo('begin', 'code'); 
 async function findDocumentByCamo(camo, field = null) {
     try {
         let url = `/find?camo=${encodeURIComponent(camo)}`;
@@ -45,7 +46,7 @@ async function findDocumentByCamo(camo, field = null) {
         throw error;
     }
 }
-
+// DB를 이용해서, code value으로부터 특정 field의 value를 불러오는 코드입니다.
 async function findDocumentBycode(code, field = null) {
     try {
         let url = `/findcode?code=${encodeURIComponent(code)}`;
