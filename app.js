@@ -37,11 +37,6 @@ app.get("/find", async (req, res) => {
       const id = document._id;
       let selectedField = field;
 
-      // field가 제공되지 않았다면, 'page' 또는 'code' 중 무작위 선택
-      if (!selectedField) {
-        selectedField = Math.random() < 0.5 ? "page" : "code";
-      }
-
       // 선택된 필드가 문서에 존재하는지 확인
       if (selectedField in document) {
         const fieldValue = document[selectedField];

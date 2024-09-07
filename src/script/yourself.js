@@ -101,21 +101,22 @@ async function checkText() {
         }
     }
     // Check if all keywords were found
-    if (allKeywordsFound && !document.getElementById("newInput")) {
+    if (allKeywordsFound && !document.getElementById("codeInput")) {
         // Check if the new input box already exists
         // Create a new input box
         const newInput = document.createElement("input");
         newInput.type = "text";
-        newInput.id = "newInput";
+        newInput.id = "codeInput";
         newInput.placeholder = "CODE:?";
         document.body.appendChild(newInput);
-        const hint = await findDocumentByCamo("philosophy", "code");
+        const hint = await findDocumentByCamo("test", "code");
         const cleanhint = hint.replace(/"/g, "");
 
         // Add an event listener to the new input box
         newInput.addEventListener("input", () => {
             if (newInput.value === cleanhint) {
                 alert("정답!");
+                checkCode()
             }
         });
     } else {
