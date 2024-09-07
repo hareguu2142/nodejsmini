@@ -2,15 +2,14 @@ const colorBox = document.getElementById("color-box");
 const redSlider = document.getElementById("red");
 const greenSlider = document.getElementById("green");
 const blueSlider = document.getElementById("blue");
-
-const textDisplay = document.createElement('div');
+const textDisplay = document.createElement("div");
 document.body.appendChild(textDisplay);
-textDisplay.style.position = 'fixed';
-textDisplay.style.top = '50%';
-textDisplay.style.left = '50%';
-textDisplay.style.transform = 'translate(-50%, -50%)';
-textDisplay.style.fontSize = '24px';
-textDisplay.style.fontWeight = 'bold';
+textDisplay.style.position = "fixed";
+textDisplay.style.top = "50%";
+textDisplay.style.left = "50%";
+textDisplay.style.transform = "translate(-50%, -50%)";
+textDisplay.style.fontSize = "24px";
+textDisplay.style.fontWeight = "bold";
 
 // 코드 확인 및 페이지 이동 함수
 async function checkCode() {
@@ -93,26 +92,26 @@ async function updateColor() {
     const color = `rgb(${r},${g},${b})`;
     document.body.style.backgroundColor = color;
     if (r === 0 && g === 100 && b === 0) {
-        console.log("asd");
-        if (solve_code === null) {
-            solve_code = await findDocumentByCamo("begin", "code");
-        }
+        alert("!!!");
+        solve_code = await findDocumentByCamo("begin", "code");
         textDisplay.textContent = "CODE:" + solve_code;
-        showInputField();
-
         textDisplay.style.color = "black";
+        codeInput.style.display = "block"; // 정해진 색상이 되면 변경되면 코드 입력 창을 보이게 함
+        submitButton.style.display = "block"; // 정해진 색상이 되면 변경되면 코드 입력 창을 보이게 함
+        showInputField();
     } else {
-        textDisplay.textContent = "what color?";
-        hideInputField();
-        textDisplay.style.color = "#006400";
+        textDisplay.textContent = "what color??";
+        textDisplay.style.color = "RGB(0, 100, 0)";
+        codeInput.style.display = "none";
+        submitButton.style.display = "none";
     }
 }
 
 function showInputField() {
-    if (!document.getElementById("code-input")) {
+    if (!document.getElementById("codeInput")) {
         const inputField = document.createElement("input");
         inputField.type = "text";
-        inputField.id = "code-input";
+        inputField.id = "codeInput";
         inputField.placeholder = "Enter code here";
         inputField.style.position = "fixed";
         inputField.style.bottom = "20px";
@@ -129,25 +128,18 @@ function showInputField() {
         submitButton.style.transform = "translateX(110px)";
         submitButton.style.padding = "10px";
 
-        document.body.appendChild(inputField);
-        document.body.appendChild(submitButton);
-    } else {
-        document.getElementById("code-input").style.display = "block";
-        document.querySelector("button").style.display = "inline-block";
+
     }
 }
 
-function hideInputField() {
-    const inputField = document.getElementById("code-input");
-    const submitButton = document.querySelector("button");
-    if (inputField) {
-        inputField.style.display = "none";
-        submitButton.style.display = "none";
-    }
-}
+
+// Submit 버튼에 이벤트 리스너 추가
+const submitButton = document.getElementById("submitButton");
+submitButton.addEventListener("click", checkCode);
 
 redSlider.addEventListener("input", () => updateColor());
 greenSlider.addEventListener("input", () => updateColor());
 blueSlider.addEventListener("input", () => updateColor());
 
-updateColor()
+
+updateColor();
