@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 <script src="/js/script/gb.js"></script>
 <script src="/js/script/gps.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Target Game</title>
+  <title>목표 찾기 게임</title>
   <style>
     body {
       display: flex;
@@ -30,9 +30,17 @@
     }
     #codeInput {
       left: 5%;
+      text-align: center;
     }
     button {
       right: 5%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
     }
     @media (max-width: 600px) {
       #codeInput, button {
@@ -44,7 +52,7 @@
   </style>
 </head>
 <body>
-  <input type="text" id="codeInput" placeholder="Enter code" />
-  <button onclick="checkCode()">Submit</button>
+  <input type="text" id="codeInput" placeholder="코드 입력" />
+  <button onclick="checkCode()">제출</button>
 </body>
 </html>

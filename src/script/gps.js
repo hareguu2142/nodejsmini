@@ -45,12 +45,12 @@ function draw() {
     // Display the remaining attempts
     textSize(min(20, windowWidth / 20));
     fill(0);
-    text(`Attempts: ${maxAttempts - attempts}`, width / 2, 20);
+    text(`남은 기회: ${maxAttempts - attempts}`, width / 2, 20);
 
     // If a click was made, display the distance to the target
     if (distance !== null) {
       textSize(min(18, windowWidth / 30));
-      text(`Distance: ${distance.toFixed(2)}`, width / 2, height - 30);
+      text(`거리: ${distance.toFixed(2)}`, width / 2, height - 30);
     }
   }
 
@@ -69,7 +69,7 @@ function draw() {
   if (gameWon) {
     textSize(min(32, windowWidth / 15));
     fill(0, 200, 0);
-    text('You Found It!', width / 2, height / 2 - 20);
+    text('찾았습니다!', width / 2, height / 2 - 20);
     textSize(min(20, windowWidth / 25));
     fill(0);
     // 타겟의 위치를 표시
@@ -77,13 +77,13 @@ function draw() {
     ellipse(targetX, targetY, 15, 15); // 타겟을 빨간색으로 표시
     textSize(min(18, windowWidth / 30));
     fill(0);
-    text('Target was here!', targetX, targetY - 15);
+    text('목표 위치', targetX, targetY - 15);
     noLoop(); // 게임이 종료되면 draw() 함수가 멈추도록 합니다.
     
     // Update this part to use the fetched testCode
     textSize(min(24, windowWidth / 20));
     fill(0);
-    text(`CODE:${testCode}`, width / 2, height / 2 + 80);
+    text(`CODE: ${testCode}`, width / 2, height / 2 + 80);
     
     // 게임 승리 시 input과 submit 버튼을 표시
     showInputForm();
@@ -93,7 +93,7 @@ function draw() {
   if (gameLost) {
     textSize(min(32, windowWidth / 15));
     fill(255, 0, 0);
-    text('You Lose!', width / 2, height / 2 - 20);
+    text('실패했습니다!', width / 2, height / 2 - 20);
     textSize(min(20, windowWidth / 25));
     fill(0);
     drawStartButton();
@@ -103,7 +103,7 @@ function draw() {
     ellipse(targetX, targetY, 10, 10); // 타겟을 빨간색으로 표시
     textSize(min(18, windowWidth / 30));
     fill(0);
-    text('Target was here!', targetX, targetY - 15);
+    text('목표 위치', targetX, targetY - 15);
   }
 
   // If the game has not started, show the start button and instructions
@@ -120,11 +120,11 @@ function drawStartButton() {
   rect(windowWidth / 2 - buttonWidth / 2, windowHeight / 2 - buttonHeight / 2, buttonWidth, buttonHeight, 20); // 네모 생성
   fill(0); 
   textSize(min(24, windowWidth / 20));
-  text('<게임방법>', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 50); // 게임 방법 타이틀
+  text('게임 방법', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 50); // 게임 방법 타이틀
   textSize(min(16, windowWidth / 30));
-  text('1. 마우스를 클릭하면, 클릭한 지점으로부터', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 90);
-  text('찾아야 하는 점까지의 거리가 표시됩니다.', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 110);
-  text('2. 총 4번의 기회가 주어집니다.', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 130);
+  text('1. 화면을 클릭하면 목표까지의 거리가 표시됩니다.', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 90);
+  text('2. 총 4번의 기회가 주어집니다.', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 120);
+  text('3. 목표를 찾으면 승리합니다!', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 150);
 
   // Start 버튼
   fill(0, 200, 0);
@@ -133,7 +133,7 @@ function drawStartButton() {
   rect(windowWidth / 2 - startButtonWidth / 2, windowHeight / 2 + buttonHeight / 2 - startButtonHeight - 20, startButtonWidth, startButtonHeight, 10); 
   fill(255);
   textSize(min(20, windowWidth / 25));
-  text('START', windowWidth / 2, windowHeight / 2 + buttonHeight / 2 - startButtonHeight / 2 - 20);
+  text('시작', windowWidth / 2, windowHeight / 2 + buttonHeight / 2 - startButtonHeight / 2 - 20);
 }
 
 function mousePressed() {
@@ -200,6 +200,7 @@ function showInputForm() {
 
   inputElement.style.display = "block";
   submitButton.style.display = "block";
+  submitButton.textContent = "제출";
 
   // 모바일 환경에서 입력 필드에 포커스가 가면 가상 키보드가 나타나도록 함
   if (windowWidth <= 600) {
