@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+<script src="/js/script/gb.js"></script>
+<script src="/js/script/gps.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Target Game</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #codeInput, button {
+      display: none; /* 처음에는 숨김 */
+      position: absolute;
+      bottom: 20px; /* 화면 아래로 이동 */
+    }
+    #codeInput {
+      left: calc(50% - 100px); /* 입력 필드를 왼쪽으로 이동 */
+    }
+    button {
+      left: calc(50% + 5px); /* 버튼을 오른쪽으로 이동 */
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="codeInput" placeholder="Enter code" />
+  <button onclick="checkCode()">Submit</button>
+</body>
+</html>
