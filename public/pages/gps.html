@@ -10,21 +10,32 @@
   <style>
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      touch-action: none;
     }
     #codeInput, button {
-      display: none; /* 처음에는 숨김 */
-      position: absolute;
-      bottom: 20px; /* 화면 아래로 이동 */
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      width: 40%;
+      max-width: 200px;
+      padding: 10px;
+      font-size: 16px;
     }
     #codeInput {
-      left: calc(50% - 100px); /* 입력 필드를 왼쪽으로 이동 */
+      left: 5%;
     }
     button {
-      left: calc(50% + 5px); /* 버튼을 오른쪽으로 이동 */
+      right: 5%;
+    }
+    @media (max-width: 600px) {
+      #codeInput, button {
+        width: 45%;
+      }
     }
   </style>
 </head>

@@ -43,13 +43,13 @@ function draw() {
 
   if (gameStarted && !gameLost && !gameWon) {
     // Display the remaining attempts
-    textSize(20);
+    textSize(min(20, windowWidth / 20));
     fill(0);
     text(`Attempts: ${maxAttempts - attempts}`, width / 2, 20);
 
     // If a click was made, display the distance to the target
     if (distance !== null) {
-      textSize(18);
+      textSize(min(18, windowWidth / 30));
       text(`Distance: ${distance.toFixed(2)}`, width / 2, height - 30);
     }
   }
@@ -67,21 +67,21 @@ function draw() {
 
   // If the game is won, display the 'You Win!' message
   if (gameWon) {
-    textSize(32);
+    textSize(min(32, windowWidth / 15));
     fill(0, 200, 0);
     text('You Found It!', width / 2, height / 2 - 20);
-    textSize(20);
+    textSize(min(20, windowWidth / 25));
     fill(0);
     // 타겟의 위치를 표시
     fill(255, 0, 0);
     ellipse(targetX, targetY, 15, 15); // 타겟을 빨간색으로 표시
-    textSize(18);
+    textSize(min(18, windowWidth / 30));
     fill(0);
     text('Target was here!', targetX, targetY - 15);
     noLoop(); // 게임이 종료되면 draw() 함수가 멈추도록 합니다.
     
     // Update this part to use the fetched testCode
-    textSize(24);
+    textSize(min(24, windowWidth / 20));
     fill(0);
     text(`CODE:${testCode}`, width / 2, height / 2 + 80);
     
@@ -91,17 +91,17 @@ function draw() {
 
   // If the game is lost, display the 'lose' message and show the target
   if (gameLost) {
-    textSize(32);
+    textSize(min(32, windowWidth / 15));
     fill(255, 0, 0);
     text('You Lose!', width / 2, height / 2 - 20);
-    textSize(20);
+    textSize(min(20, windowWidth / 25));
     fill(0);
     drawStartButton();
 
     // 타겟의 위치를 표시
     fill(255, 0, 0);
     ellipse(targetX, targetY, 10, 10); // 타겟을 빨간색으로 표시
-    textSize(18);
+    textSize(min(18, windowWidth / 30));
     fill(0);
     text('Target was here!', targetX, targetY - 15);
   }
@@ -115,27 +115,44 @@ function draw() {
 function drawStartButton() {
   strokeWeight(1); 
   fill(255); 
-  rect(width / 2 - 200, height / 2 - 150, 400, 300, 20); // 네모 생성
+  let buttonWidth = min(400, windowWidth * 0.8);
+  let buttonHeight = min(300, windowHeight * 0.4);
+  rect(windowWidth / 2 - buttonWidth / 2, windowHeight / 2 - buttonHeight / 2, buttonWidth, buttonHeight, 20); // 네모 생성
   fill(0); 
-  textSize(24);
-  text('<게임방법>', width / 2, height / 2 - 100); // 게임 방법 타이틀
-  textSize(16);
-  text('1. 마우스를 클릭하면, 클릭한 지점으로부터', width / 2, height / 2 - 60);
-  text('찾아야 하는 점까지의 거리가 표시됩니다.', width / 2, height / 2 - 40);
-  text('2. 총 4번의 기회가 주어집니다.', width / 2, height / 2 - 20);
+  textSize(min(24, windowWidth / 20));
+  text('<게임방법>', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 50); // 게임 방법 타이틀
+  textSize(min(16, windowWidth / 30));
+  text('1. 마우스를 클릭하면, 클릭한 지점으로부터', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 90);
+  text('찾아야 하는 점까지의 거리가 표시됩니다.', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 110);
+  text('2. 총 4번의 기회가 주어집니다.', windowWidth / 2, windowHeight / 2 - buttonHeight / 2 + 130);
 
   // Start 버튼
   fill(0, 200, 0);
-  rect(width / 2 - 50, height / 2 + 40, 100, 40, 10); 
+  let startButtonWidth = min(100, windowWidth * 0.3);
+  let startButtonHeight = min(40, windowHeight * 0.06);
+  rect(windowWidth / 2 - startButtonWidth / 2, windowHeight / 2 + buttonHeight / 2 - startButtonHeight - 20, startButtonWidth, startButtonHeight, 10); 
   fill(255);
-  textSize(20);
-  text('START', width / 2, height / 2 + 60);
+  textSize(min(20, windowWidth / 25));
+  text('START', windowWidth / 2, windowHeight / 2 + buttonHeight / 2 - startButtonHeight / 2 - 20);
 }
 
 function mousePressed() {
-  // If the game is lost, won, or not started, check if the start button is clicked
-  if (!gameStarted || gameLost || gameWon) {
-    if (mouseX > width / 2 - 50 && mouseX < width / 2 + 50 && mouseY > height / 2 + 40 && mouseY < height / 2 + 80) {
+  handleInput(mouseX, mouseY);
+}
+
+function touchStarted() {
+  handleInput(touches[0].x, touches[0].y);
+  return false;
+}
+
+function handleInput(x, y) {
+  // If the game is lost or not started, check if the start button is clicked
+  if (!gameStarted || gameLost) {
+    let buttonWidth = min(100, windowWidth * 0.3);
+    let buttonHeight = min(40, windowHeight * 0.06);
+    let startButtonX = windowWidth / 2 - buttonWidth / 2;
+    let startButtonY = windowHeight / 2 + min(300, windowHeight * 0.4) / 2 - buttonHeight - 20;
+    if (x > startButtonX && x < startButtonX + buttonWidth && y > startButtonY && y < startButtonY + buttonHeight) {
       startGame();
       gameStarted = true;
       return;
@@ -145,11 +162,11 @@ function mousePressed() {
   // If the game has started and is still in progress
   if (gameStarted && !gameLost && !gameWon) {
     attempts++;
-    let d = dist(mouseX, mouseY, targetX, targetY);
+    let d = dist(x, y, targetX, targetY);
     distance = d;
 
     // 클릭한 위치와 그 위치에서 타겟까지의 거리를 배열에 저장
-    clicks.push({x: mouseX, y: mouseY, distance: d});
+    clicks.push({x: x, y: y, distance: d});
 
     // If the target is found (within radius of 5)
     if (d < 5) {
