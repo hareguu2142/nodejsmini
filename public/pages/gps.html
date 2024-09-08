@@ -5,7 +5,7 @@
 <script src="/js/script/gb.js"></script>
 <script src="/js/script/gps.js"></script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Target Game</title>
   <style>
     body {
@@ -16,6 +16,7 @@
       height: 100vh;
       margin: 0;
       touch-action: none;
+      overflow: hidden;
     }
     #codeInput, button {
       display: none;
@@ -25,6 +26,7 @@
       max-width: 200px;
       padding: 10px;
       font-size: 16px;
+      z-index: 1000;
     }
     #codeInput {
       left: 5%;
@@ -35,6 +37,8 @@
     @media (max-width: 600px) {
       #codeInput, button {
         width: 45%;
+        font-size: 14px;
+        padding: 8px;
       }
     }
   </style>

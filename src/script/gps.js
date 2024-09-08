@@ -185,6 +185,12 @@ function handleInput(x, y) {
 // 화면 크기가 변경될 때 캔버스 크기를 다시 조정
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  // 게임 상태에 따라 UI 요소 재배치
+  if (gameWon) {
+    showInputForm();
+  } else {
+    hideInputForm();
+  }
 }
 
 // input과 submit 버튼을 나타내는 함수
@@ -194,6 +200,11 @@ function showInputForm() {
 
   inputElement.style.display = "block";
   submitButton.style.display = "block";
+
+  // 모바일 환경에서 입력 필드에 포커스가 가면 가상 키보드가 나타나도록 함
+  if (windowWidth <= 600) {
+    inputElement.focus();
+  }
 }
 
 // input과 submit 버튼을 숨기는 함수
