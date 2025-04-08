@@ -54,13 +54,15 @@ def chat():
                 # if chunk.prompt_feedback.block_reason:
                 #     yield f"\n[Blocked due to: {chunk.prompt_feedback.block_reason}]"
 
-            # 대화 기록 업데이트 (사용자 메시지 및 모델 응답 추가)
-            chat_history.append({"role": "user", "parts": [user_message]})
-            chat_history.append({"role": "model", "parts": [full_response_text]})
-            session['chat_history'] = chat_history # 세션에 저장
+            # 대화 기록 업데이트 (사용자 메시지 및 모델 응답 추가) - 스트리밍 완료 후 세션 업데이트
+            updated_history = chat_history + [
+                {"role": "user", "parts": [user_message]},
+                {"role": "model", "parts": [full_response_text]}
+            ]
+            session['chat_history'] = updated_history # 세션에 저장
 
         except Exception as e:
-            print(f"Error during Gemini API call: {e}")
+            print(f"Error during Gemini API call or session update: {e}")
             yield f"[Error generating response: {e}]"
 
 
